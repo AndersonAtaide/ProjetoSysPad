@@ -4,13 +4,13 @@ import model.Item;
 
 public interface IRepositorioItem {
 
-	String listarItens();
+    String listarItens();
 
-	Item procurarItem(int codigo);
+    Item procurarItem(int codigo);
 
-	void cadastrarItem(Item m);
+    void cadastrarItem(Item m);
 
-	void removerItem(int codigo);
+    void removerItem(int codigo);
 
-	void editarItem(int codigo);
+    void editarItem(int codigo);
 }
