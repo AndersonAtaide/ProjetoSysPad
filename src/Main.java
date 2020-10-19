@@ -90,6 +90,7 @@ public class Main {
         
         System.out.println("Alterar Preço Venda");
 	item.mudarPrecoVenda(1, 7.25);
+        item.mudarPrecoVenda(3, 7.25);
 	resultado = item.listarItens();
 	System.out.println();
 	System.out.println(resultado);
