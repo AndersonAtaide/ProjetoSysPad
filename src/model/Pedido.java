@@ -4,12 +4,12 @@ public class Pedido {
 
     private int codigo;
     private double quantidade;
-    private double preco;
+    private double total;
 
-    public Pedido(int codigo, int quantidade, double preco) {
+    public Pedido(int codigo, int quantidade, double total) {
 	this.codigo = codigo;
 	this.quantidade = quantidade;
-	this.preco = preco;
+	this.total = total;
     }
 
     public int getCodigo() {
@@ -29,10 +29,7 @@ public class Pedido {
     }
 
     public double getPreco() {
-	return preco;
-    }
-
-    public void setPreco(double preco) {
-	this.preco = preco;
-    }
+	return total;
+    
+    }    
 }

@@ -1,8 +1,8 @@
-package data;
+package control;
 
 import model.Item;
 
-public interface IRepositorioItem {
+public interface ICadastroItem {
 
     String listarItens();
 

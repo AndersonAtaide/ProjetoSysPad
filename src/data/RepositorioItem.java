@@ -19,8 +19,8 @@ public class RepositorioItem implements IRepositorioItem {
         String resultado = "";
         for (Item p : this.item) {
         resultado = resultado + "[Código: " + p.getCodigo() + "] [Nome: " + p.getNome() + "] [Fabricante: "
-                                            + p.getFabricante() + "] [Tipo: " + p.getTipo() + "] [Unidade de Medida: " + p.getUnidadeMedida()
-                                            + "] [Quantidade: " + p.getQuantidade() + "] [Preço de Venda: " + p.getPrecoVenda() + "]" + "\n";
+                              + p.getFabricante() + "] [Tipo: " + p.getTipo() + "] [Unidade de Medida: " + p.getUnidadeMedida()
+                              + "] [Quantidade: " + p.getQuantidade() + "] [Preço de Venda: " + p.getPrecoVenda() + "]" + "\n";
         }
     return resultado;
     }
@@ -75,10 +75,9 @@ public class RepositorioItem implements IRepositorioItem {
     }
 
     @Override
-    public void editarItem(int codigo) {
+    public void editarItem(int codigo, String nome, String fabricante, String tipo, String unidadeMedida) {
         boolean codigoExiste = false;
-	String nome = "", fabricante = "", tipo = "", unidadeMedida = "";
-
+        
 	indice = 0;
         for (indice = 0; indice < this.item.size() && !codigoExiste; indice++) {
             Item p = this.item.get(indice);
@@ -92,6 +91,5 @@ public class RepositorioItem implements IRepositorioItem {
                 
             }
 	}
-    }
-    
+    }    
 }
