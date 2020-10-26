@@ -4,7 +4,7 @@ public interface IControladorCaixa {
     
     void adicionarCarrinho(int codProduto, double quantidade);
 
-    int checarEstoque (int codigo, double quantidade);    
+    boolean checarEstoque (int codigo, double quantidade);    
     
     boolean realizarVenda(double pagamento);
 

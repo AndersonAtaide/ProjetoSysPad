@@ -22,7 +22,7 @@ public class RepositorioProduto implements IRepositorioProduto {
                               + p.getUnidadeMedida() + "] [Quantidade: " + p.getQuantidade() + "] [Preço: "
                               + p.getPrecoVenda() + "]" + "\n";
         }
-    return resultado;
+        return resultado;
     }
 
     @Override

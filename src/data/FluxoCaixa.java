@@ -11,14 +11,14 @@ import model.Venda;
 public class FluxoCaixa implements IFluxoCaixa {
     
     private List<Pedido> carrinho;
-    private List<Produto> produto;
+    private static List<Produto> produto;
     private List<Venda> venda;
     
-    private int indice;
+    private int indice;    
     
     public FluxoCaixa(int tamanho) {
 	this.carrinho = new ArrayList<>(tamanho);
-        this.produto = new ArrayList<>(tamanho);
+        FluxoCaixa.produto = new ArrayList<>(tamanho);
         this.venda = new ArrayList<>(tamanho);
     }   
 
@@ -26,7 +26,7 @@ public class FluxoCaixa implements IFluxoCaixa {
     public int gerarCodVenda(){        
         int numGerado;        
         
-        for(int indice = 0; indice < venda.size(); indice++){
+        for(int indice = 0; indice < this.venda.size(); indice++){
             this.venda.get(indice);
         }
         
@@ -37,16 +37,17 @@ public class FluxoCaixa implements IFluxoCaixa {
     @Override
     public void adicionarCarrinho(int codProduto, double quantidade) {        
         
-        if(checarEstoque(codProduto, quantidade) >= 0) {            
+        if(checarEstoque(codProduto, quantidade)) {            
             boolean codigoExiste = false;
+            boolean itemNovo = true;
             
             int num = 0;
             double quant = 0;
             String nome = "";
             double precoVenda = 0;            
             
-            for (indice = 0; indice < this.produto.size() && !codigoExiste; indice++) {
-                Produto p = this.produto.get(indice);
+            for (indice = 0; indice < FluxoCaixa.produto.size() && !codigoExiste; indice++) {
+                Produto p = FluxoCaixa.produto.get(indice);
                 if (p.getCodigo() == codProduto) {
                     codigoExiste = true;
                     num = p.getCodigo();
@@ -56,21 +57,18 @@ public class FluxoCaixa implements IFluxoCaixa {
                 }
             }  
             
-            for(Pedido c : carrinho) {
-                if(c.getCodPedido() == num){
-                    double quantAtual = c.getQuantComprada();
-                    c.setQuantComprada(quantAtual+num);
-                    codigoExiste = true;
+            for(Pedido e : this.carrinho) {
+                if(e.getCodPedido() == num){
+                    double quantAtual = e.getQuantComprada();
+                    e.setQuantComprada(quantAtual+num);
+                    itemNovo = false;
                 }
             }
-            if (!codigoExiste) {
+            if (itemNovo) {
                 double subtotal = quant*precoVenda;
-                Pedido x = new Pedido(num, nome, quant, subtotal);
-            }  
-            
-            //O PROBLEMA ESTÁ AQUI, PQ TENHO Q INSTANCIAR O PEDIDO MAS SE EU CRIO ELE COMO 
-            //PEDIDO C; TENHO Q DELCARAR ELE NULL, E TENTANDO INSTANCIAR COM O NEW N DA CERTO TBM
-            //ESSE MESMO PROBLEMA ESTA EM INSTANCIAR A VENDA NO METODO POSVENDA MAS EM BAIXO.
+                Pedido c = new Pedido(num, nome, quant, subtotal);
+                this.carrinho.add(c);
+            }              
         }
     }
 
@@ -98,25 +96,22 @@ public class FluxoCaixa implements IFluxoCaixa {
     public double calculoPedido() {
         double totalCarrinho = 0;
         
-        for(Pedido itens : carrinho){
+        for(Pedido itens : this.carrinho){
             totalCarrinho = totalCarrinho + itens.getValorSomaItens();
         }
         return totalCarrinho;
     }
 
     @Override
-    @SuppressWarnings("UnusedAssignment")
-    public int checarEstoque(int codigo, double quantidade) {
+    public boolean checarEstoque(int codigo, double quantidade) {
         boolean codigoExiste = false;
-        int resultado = -1;
-        for (indice = 0; indice < this.produto.size() && !codigoExiste; indice++) {
-            Produto p = this.produto.get(indice);
+        boolean resultado = false;
+        for (indice = 0; indice < FluxoCaixa.produto.size() && !codigoExiste; indice++) {
+            Produto p = FluxoCaixa.produto.get(indice);
             if (p.getCodigo() == codigo) {
-                codigoExiste = true;
-            }
-            if (codigoExiste) {
-                if (p.getQuantidade() == quantidade){
-                    return resultado = indice;
+                codigoExiste = true;            
+                if (p.getQuantidade() >= quantidade){
+                    resultado = true;
                 }
             }
 	}        
@@ -140,11 +135,11 @@ public class FluxoCaixa implements IFluxoCaixa {
         double quantRetirar;
         double quantAtual;
         
-        for(Pedido c : carrinho){                    
+        for(Pedido c : this.carrinho){                    
             numProduto = c.getCodPedido();
             quantRetirar = c.getQuantComprada();
             
-            for(Produto p : produto){
+            for(Produto p : FluxoCaixa.produto){
                 if(p.getCodigo() == numProduto){
                     quantAtual = p.getQuantidade();            
                     p.setQuantidade(quantAtual - quantRetirar);
@@ -162,11 +157,9 @@ public class FluxoCaixa implements IFluxoCaixa {
         int codVenda = gerarCodVenda();
         double calculoPedido = calculoPedido();
         Venda v = new Venda(codVenda, calculoPedido, formato.format(dataHoje));
+        this.venda.add(v);
         remocaoItens();
-        carrinho.clear();
-        //se quiser ter a lista de produtos ai tem q mudar a venda
-        //pra receber os produtos e quantidades vendidas
-        //a ideia aki é apagar o ArrayList do pedido no fim desse metodo
+        this.carrinho.clear();        
     }
 
     @Override

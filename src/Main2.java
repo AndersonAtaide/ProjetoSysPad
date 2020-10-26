@@ -5,9 +5,7 @@ import data.IRepositorioDeFuncionarios;
 import model.Funcionario;
 
 import control.ControladorProduto;
-import data.FluxoCaixa;
 import data.IRepositorioProduto;
-import model.Pedido;
 import model.Produto;
 import data.IFluxoCaixa;
 
@@ -104,14 +102,12 @@ public class Main2 {
         
         IFluxoCaixa instaciaInterfaceCaixa = new data.FluxoCaixa(100);
         ControladorCaixa caixa = new ControladorCaixa(instaciaInterfaceCaixa);
-        
-        String resultado2;
-        
+                
         caixa.adicionarCarrinho(1, 5);
         caixa.adicionarCarrinho(2, 8);
         caixa.adicionarCarrinho(6, 10);
         
-        resultado2 = caixa.listaCarrinho();
+        String resultado2 = caixa.listaCarrinho();
         
         System.out.println();
 	System.out.println(resultado2);       

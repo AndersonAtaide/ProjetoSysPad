@@ -2,13 +2,12 @@ package control;
 
 import data.IFluxoCaixa;
 
-
 public class ControladorCaixa implements IControladorCaixa {
 
     private IFluxoCaixa fluxoCaixa;
     
-    public ControladorCaixa(IFluxoCaixa instanciaInterfaceCaixa){
-        this.fluxoCaixa = instanciaInterfaceCaixa;
+    public ControladorCaixa(IFluxoCaixa iFluxoCaixa){
+        this.fluxoCaixa = iFluxoCaixa;
     }
     
     @Override
@@ -19,11 +18,11 @@ public class ControladorCaixa implements IControladorCaixa {
     }
 
     @Override
-    public int checarEstoque(int codigo, double quantidade) {
+    public boolean checarEstoque(int codigo, double quantidade) {
         if (codigo > 0 && quantidade > 0){
             return this.fluxoCaixa.checarEstoque(codigo, quantidade);
         }        
-        return -1;
+        return false;
     }
 
     @Override
