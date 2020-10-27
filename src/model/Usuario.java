@@ -7,6 +7,9 @@ public abstract class Usuario {
 	private String cpf;
 	private int telefone;
 
+        public Usuario(){            
+        }
+        
 	public Usuario(String nome, String sobrenome, String cpf, int telefone) {
 		this.nome = nome;
 		this.sobrenome = sobrenome;

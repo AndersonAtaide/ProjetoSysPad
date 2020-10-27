@@ -4,15 +4,15 @@ public class Administrador extends Funcionario {
 
 	private int nivelHierarquico;
 
-	public Administrador(String nome, String sobrenome, String cpf, int matricula, boolean admin, String login,
+	public Administrador(String nome, String sobrenome, String cpf, int matricula, String login,
 			String senha, int nivelHierarquico) {
-		super(nome, sobrenome, cpf, matricula, admin, login, senha);
+		super(nome, sobrenome, cpf, matricula, login, senha);
 		this.nivelHierarquico = nivelHierarquico;
 	}
 
-	public Administrador(String nome, String sobrenome, String cpf, int telefone, int matricula, boolean admin,
+	public Administrador(String nome, String sobrenome, String cpf, int telefone, int matricula,
 			String login, String senha, int nivelHierarquico) {
-		super(nome, sobrenome, cpf, telefone, matricula, admin, login, senha);
+		super(nome, sobrenome, cpf, telefone, matricula, login, senha);
 		this.nivelHierarquico = nivelHierarquico;
 	}
 
@@ -30,13 +30,5 @@ public class Administrador extends Funcionario {
 		String modificada = stringDaSuper.substring(12);
 
 		return "Administrador\n" + modificada + ", nivelHierarquico=" + nivelHierarquico;
-	}
-
-	private void darAcesso() {
-		setAdmin(true);
-	}
-
-	private void removerAcesso() {
-		setAdmin(false);
 	}
 }

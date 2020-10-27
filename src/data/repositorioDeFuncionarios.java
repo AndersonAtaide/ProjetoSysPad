@@ -2,12 +2,12 @@ package data;
 
 import model.Funcionario;
 
-public class repositorioDeFuncionarios implements IRepositorioDeFuncionarios {
+public class RepositorioDeFuncionarios implements IRepositorioDeFuncionarios {
 
 	private Funcionario[] funcionarios;
 	private int posicao = 0;
 
-	public repositorioDeFuncionarios(int tamanho) {
+	public RepositorioDeFuncionarios(int tamanho) {
 		this.funcionarios = new Funcionario[tamanho];
 	}
 
