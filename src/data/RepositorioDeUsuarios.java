@@ -1,31 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package data;
 
-//import Classes.Usuarios;
 import model.Usuario;
 
-/**
- *
- * @author ander
- */
-public class RepositorioDeUsuarios {
-    private Usuario[] usuario;
+public class RepositorioDeUsuarios implements IRepositorioDeUsuarios{
+    private Usuario[] usuarios;
 	private int posicao = 0;
 
 	public RepositorioDeUsuarios(int tamanho) {
-		this.usuario = new Usuario[tamanho];
+		this.usuarios = new Usuario[tamanho];
 	}
 
 	public Usuario[] getUsuario() {
-		return usuario;
-	}
-
-	public void setFuncionarios(Usuario[] usuarios) {
-		this.usuario = usuarios;
+		return usuarios;
 	}
 
 	public int getPosicao() {
@@ -36,52 +22,57 @@ public class RepositorioDeUsuarios {
 		this.posicao = posicao;
 	}
 
+        @Override
 	public void incluirUsuario(Usuario usuario) {
-		while (this.usuario[this.posicao] != null) {
-			if (this.usuario[posicao].getCpf()== usuario.getCpf()) {
+		while (this.usuarios[this.posicao] != null) {
+			if (this.usuarios[posicao].getCpf()== usuario.getCpf()) {
 				System.out.println("Usuario Já existe");
 				return;
 			}
 			posicao += 1;
 		}
-		this.usuario[posicao] = usuario;
+		this.usuarios[posicao] = usuario;
 	}
-/*
-	public void procurarFuncionario(int matricula) {
-		for (Funcionario funcionario : funcionarios) {
-			if (funcionario.getMatricula() == matricula) {
-				System.out.println(funcionario);
+
+        @Override
+	public void procurarUsuario(String cpf) {
+		for (Usuario usuario : usuarios) {
+			if (usuario.getCpf().equals(cpf)) {
+				System.out.println(usuario);
 				break;
 			}
 		}
 	}
 
-	public void excluirFuncionario(int matricula) {
-		for (int i = 0; i < funcionarios.length; i++) {
-			if (funcionarios[i].getMatricula() == matricula) {
-				funcionarios[i] = null;
+        @Override
+	public void excluirUsuario(String cpf) {
+		for (int i = 0; i < usuarios.length; i++) {
+			if (usuarios[i].getCpf().equals(cpf)) {
+				usuarios[i] = null;
 				break;
 			}
 		}
 	}
-*/
+
+        @Override
 	public void listarUsuarios() {
-		for (Usuario user : usuario) {
+		for (Usuario user : usuarios) {
 			if (user != null)
 				System.out.print(user);
 		}
 	}
-/*
-	public boolean editarFuncionario(int matricula, String nome, String sobrenome, String cpf, int telefone) {
-		for (Funcionario funcionario : funcionarios) {
-			if (funcionario.getMatricula() == matricula) {
-				funcionario.setNome(nome);
-				funcionario.setSobrenome(sobrenome);
-				funcionario.setCpf(cpf);
-				funcionario.setTelefone(telefone);
+        
+        @Override
+	public boolean editarUsuario(String nome, String sobrenome, String cpf, int telefone) {
+		for (Usuario usuario : usuarios) {
+			if (usuario.getCpf().equals(cpf)) {
+				usuario.setNome(nome);
+				usuario.setSobrenome(sobrenome);
+				usuario.setCpf(cpf);
+				usuario.setTelefone(telefone);
 				return true;
 			}
 		}
 		return false;
-	}*/
+	}        
 }
