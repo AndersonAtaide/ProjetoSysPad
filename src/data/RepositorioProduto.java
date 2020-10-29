@@ -7,7 +7,7 @@ import model.Produto;
 
 public class RepositorioProduto implements IRepositorioProduto {
 
-    private static List<Produto> produto;
+    public static List<Produto> produto;
     private int indice;
 
     public RepositorioProduto(int tamanho) {

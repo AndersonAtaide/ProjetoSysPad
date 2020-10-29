@@ -102,7 +102,9 @@ public class Main2 {
         
         IFluxoCaixa instaciaInterfaceCaixa = new data.FluxoCaixa(100);
         ControladorCaixa caixa = new ControladorCaixa(instaciaInterfaceCaixa);
-                
+             
+        System.out.println("ADD carrinho");
+
         caixa.adicionarCarrinho(1, 5);
         caixa.adicionarCarrinho(2, 8);
         caixa.adicionarCarrinho(6, 10);
@@ -110,6 +112,36 @@ public class Main2 {
         String resultado2 = caixa.listaCarrinho();
         
         System.out.println();
-	System.out.println(resultado2);       
+	System.out.println(resultado2); 
+        
+        System.out.println("Receber Total de Compras");
+        System.out.println(caixa.calculoPedido());
+        
+        System.out.println();
+        System.out.println("ADD carrinho, produto repetido");
+        caixa.adicionarCarrinho(1, 5);
+        
+        resultado2 = caixa.listaCarrinho();
+        
+        System.out.println();
+	System.out.println(resultado2);
+        
+        System.out.println();
+        System.out.println("Remover item do carrinho");
+        caixa.removerCarrinho(6);
+        
+        System.out.println();
+        resultado2 = caixa.listaCarrinho();
+	System.out.println(resultado2);
+        
+        System.out.println();
+        System.out.println("Receber Total de Compras Atualizado");
+        System.out.println(caixa.calculoPedido());
+
+        System.out.println();        
+        System.out.println("Venda efetuada?");        
+        System.out.println(caixa.realizarVenda(100));
+
+        
     }
 }

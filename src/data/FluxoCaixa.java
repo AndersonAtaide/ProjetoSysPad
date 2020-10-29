@@ -11,14 +11,12 @@ import model.Venda;
 public class FluxoCaixa implements IFluxoCaixa {
     
     private List<Pedido> carrinho;
-    private static List<Produto> produto;
     private List<Venda> venda;
     
     private int indice;    
     
     public FluxoCaixa(int tamanho) {
 	this.carrinho = new ArrayList<>(tamanho);
-        FluxoCaixa.produto = new ArrayList<>(tamanho);
         this.venda = new ArrayList<>(tamanho);
     }   
 
@@ -41,32 +39,34 @@ public class FluxoCaixa implements IFluxoCaixa {
             boolean codigoExiste = false;
             boolean itemNovo = true;
             
-            int num = 0;
+            int cod = 0;
             double quant = 0;
             String nome = "";
             double precoVenda = 0;            
             
-            for (indice = 0; indice < FluxoCaixa.produto.size() && !codigoExiste; indice++) {
-                Produto p = FluxoCaixa.produto.get(indice);
+            for (indice = 0; indice < RepositorioProduto.produto.size() && !codigoExiste; indice++) {
+                Produto p = RepositorioProduto.produto.get(indice);
                 if (p.getCodigo() == codProduto) {
                     codigoExiste = true;
-                    num = p.getCodigo();
+                    cod = p.getCodigo();
                     nome = p.getNome();
-                    quant = p.getQuantidade();
+                    quant = quantidade;
                     precoVenda = p.getPrecoVenda();
                 }
             }  
             
             for(Pedido e : this.carrinho) {
-                if(e.getCodPedido() == num){
+                if(e.getCodPedido() == cod){
                     double quantAtual = e.getQuantComprada();
-                    e.setQuantComprada(quantAtual+num);
+                    e.setQuantComprada(quantAtual + quant);
+                    double valorAtual = e.getValorSomaItens();
+                    e.setValorSomaItens(valorAtual + (precoVenda*quant));
                     itemNovo = false;
                 }
             }
             if (itemNovo) {
                 double subtotal = quant*precoVenda;
-                Pedido c = new Pedido(num, nome, quant, subtotal);
+                Pedido c = new Pedido(cod, nome, quant, precoVenda, subtotal);
                 this.carrinho.add(c);
             }              
         }
@@ -89,7 +89,7 @@ public class FluxoCaixa implements IFluxoCaixa {
 
     @Override
     public void cancelarPedido(int codPedido) {
-        carrinho.clear();        
+        this.carrinho.clear();        
     }
 
     @Override
@@ -106,8 +106,8 @@ public class FluxoCaixa implements IFluxoCaixa {
     public boolean checarEstoque(int codigo, double quantidade) {
         boolean codigoExiste = false;
         boolean resultado = false;
-        for (indice = 0; indice < FluxoCaixa.produto.size() && !codigoExiste; indice++) {
-            Produto p = FluxoCaixa.produto.get(indice);
+        for (indice = 0; indice < RepositorioProduto.produto.size() && !codigoExiste; indice++) {
+            Produto p = RepositorioProduto.produto.get(indice);
             if (p.getCodigo() == codigo) {
                 codigoExiste = true;            
                 if (p.getQuantidade() >= quantidade){
@@ -139,7 +139,7 @@ public class FluxoCaixa implements IFluxoCaixa {
             numProduto = c.getCodPedido();
             quantRetirar = c.getQuantComprada();
             
-            for(Produto p : FluxoCaixa.produto){
+            for(Produto p : RepositorioProduto.produto){
                 if(p.getCodigo() == numProduto){
                     quantAtual = p.getQuantidade();            
                     p.setQuantidade(quantAtual - quantRetirar);
@@ -167,8 +167,8 @@ public class FluxoCaixa implements IFluxoCaixa {
      String resultado = "";
         for (Pedido c : this.carrinho) {
         resultado = resultado + "[Código: " + c.getCodPedido() + "] [Nome: " + c.getNomeProduto() + "] [Quantidade: "
-                              + c.getQuantComprada() + "] [Preço Unitario: " + (c.getValorSomaItens()/c.getQuantComprada()) + "] [SubTotal: "
-                              + c.getValorSomaItens() + "\n";
+                              + c.getQuantComprada() + "] [Preço Unitario: " + c.getPrecoVenda() + "] [SubTotal: "
+                              + c.getValorSomaItens() + "]\n";
         }
         return resultado;
     }   
